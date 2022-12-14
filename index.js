@@ -19,7 +19,7 @@ app.use(express.json());
 app.use("/user" , authRoute);
 
 
-
+mongoose.set('strictQuery', false);
 
 mongoose.connect( MONGO_URL )
 .then(()=>{
