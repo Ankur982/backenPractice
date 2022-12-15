@@ -1,34 +1,45 @@
 const express = require('express');
 
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
-const authRoute = require("./routes/User");
+const dotenv = require('dotenv');
+
+const productRoute = require("./routes/product");
+
+const bookmarkRoute = require("./routes/bookmark")
 
 const cors = require("cors");
-
-const MONGO_URL = 'mongodb+srv://Ankur:ankur@cluster0.c4ohs0g.mongodb.net/rm201'
+// accessing dotenv
+dotenv.config();
 
 const app = express();
 
 app.use(cors());
 
 app.use(express.urlencoded({ extended: true }));
+
 app.use(express.json());
 
 
-app.use("/user" , authRoute);
+//Rest Api
+
+app.use("/product", productRoute);
+
+app.use("/bookmark", bookmarkRoute);
 
 
 mongoose.set('strictQuery', false);
 
-mongoose.connect( MONGO_URL )
+mongoose.connect( process.env.MONGO_URL )
 .then(()=>{
-    console.log("DB connection successfull")
+    console.log("DB connection Successfull")
 })
 .catch((err)=>{
     console.log(err)
-});
+})
 
-app.listen( 8080, () => { 
-    console.log('server started on port 8080');
+
+
+app.listen( process.env.PORT || 8080, () => { 
+    console.log('Server Started On Port 8080') 
 });
